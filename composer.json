@@ -1,0 +1,22 @@
+{
+    "name": "bcremer/serialize",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benjamin Cremer",
+            "email": "bc@benjamin-cremer.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Bcremer\\Serialize\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Bcremer\\Serialize\\Tests\\": "tests" }
+    },
+    "require": {
+        "doctrine/instantiator": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
+    }
+}
