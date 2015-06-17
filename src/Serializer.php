@@ -55,10 +55,10 @@ class Serializer
     }
 
     /**
-     * @param $serializedObject
+     * @param array $serializedObject
      * @return object
      */
-    public function unserialize($serializedObject)
+    public function unserialize(array $serializedObject)
     {
         $className = $serializedObject['className'];
         $properties = $serializedObject['properties'];
@@ -75,6 +75,7 @@ class Serializer
 
         if (isset($serializedObject['parentProperties'])) {
             $parentProperties = $serializedObject['parentProperties'];
+
             $reflectionClass = new \ReflectionClass($instance);
             $parentRreflection = $reflectionClass->getParentClass();
 

@@ -131,8 +131,6 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $restoredObject = $SUT->unserialize($serialized);
 
-        assert($restoredObject == $object);
-
         $this->assertSame(serialize($object), serialize($restoredObject));
     }
 }
