@@ -3,6 +3,7 @@ namespace Bcremer\Serialize\Tests;
 
 use Bcremer\Serialize\Serializer;
 use Bcremer\Serialize\Tests\Objects\ExtendedObject;
+use Bcremer\Serialize\Tests\Objects\ExtendedWithOverwrittenPrivateObject;
 use Bcremer\Serialize\Tests\Objects\SimpleObject;
 use Doctrine\Instantiator\Instantiator;
 use Doctrine\Instantiator\InstantiatorInterface;
@@ -132,5 +133,57 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
         $restoredObject = $SUT->unserialize($serialized);
 
         $this->assertSame(serialize($object), serialize($restoredObject));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_serialize_extended_object_with_overwritten_private_property()
+    {
+        $instantiator = $this->getMock(InstantiatorInterface::class);
+
+        $SUT = new Serializer($instantiator);
+
+        $object = new ExtendedWithOverwrittenPrivateObject("bazValue", "extendedFooValue");
+
+        $expected = [
+            'className' => 'Bcremer\Serialize\Tests\Objects\ExtendedWithOverwrittenPrivateObject',
+            'properties' => [
+                'baz' => 'bazValue',
+                'foo' => 'extendedFooValue',
+            ],
+            'parentProperties' => [
+                'foo' => 'fooValue',
+                'bar' => 'barValue',
+            ],
+        ];
+
+        $this->assertSame($expected, $SUT->serialize($object));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_unserialize_extended_object_with_overwritten_private_property()
+    {
+        $instantiator = new Instantiator();
+        $SUT = new Serializer($instantiator);
+
+        $object = new ExtendedWithOverwrittenPrivateObject("bazValue", "extendedFooValue");
+
+        $serializedObject = [
+            'className' => 'Bcremer\Serialize\Tests\Objects\ExtendedWithOverwrittenPrivateObject',
+            'properties' => [
+                'baz' => 'bazValue',
+                'foo' => 'extendedFooValue',
+            ],
+            'parentProperties' => [
+                'foo' => 'fooValue',
+                'bar' => 'barValue',
+            ],
+        ];
+
+        $restoredObject = $SUT->unserialize($serializedObject);
+        $this->assertEquals(serialize($object), serialize($restoredObject));
     }
 }
