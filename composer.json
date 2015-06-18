@@ -14,6 +14,7 @@
         "psr-4": { "Bcremer\\Serialize\\Tests\\": "tests" }
     },
     "require": {
+        "php": ">=5.5.0",
         "doctrine/instantiator": "^1.0"
     },
     "require-dev": {
